@@ -9,40 +9,41 @@
 <h1>My Ebook App</h1>
 <div id="books"></div>
 
-<!-- Firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyATX5bxvJhV1U6iSYqQWjFNQu-ex0foVC4",
+  apiKey: "AIzaSyCcUlfZRf2U4wuKN2sUEyOUwH0JqYRa7nI",
   authDomain: "ai-studio-applet-webapp-33020.firebaseapp.com",
   projectId: "ai-studio-applet-webapp-33020",
-  storageBucket: "ai-studio-applet-webapp-33020.appspot.com",
+  storageBucket: "ai-studio-applet-webapp-33020.firebasestorage.app",
   messagingSenderId: "975550308330",
-  appId: "1:975550308330:web:3115187893e87527331c93"
+  appId: "1:975550308330:web:6298b9dee06f5d11331c93"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-db.collection("ebooks").get().then((querySnapshot) => {
-  let booksDiv = document.getElementById("books");
+const booksDiv = document.getElementById("books");
+
+async function loadBooks() {
+  const querySnapshot = await getDocs(collection(db, "books"));
 
   querySnapshot.forEach((doc) => {
-    let data = doc.data();
+    const data = doc.data();
 
     booksDiv.innerHTML += `
-      <div style="border:1px solid black; padding:10px; margin:10px;">
+      <div style="border:1px solid black; margin:10px; padding:10px;">
         <h2>${data.title}</h2>
-        <p>Author: ${data.Author}</p>
-        <p>Price: ${data.Price}</p>
+        <p>Author: ${data.author}</p>
+        <p>Price: ${data.price}</p>
       </div>
     `;
   });
-});
+}
 
+loadBooks();
 </script>
 
 </body>
