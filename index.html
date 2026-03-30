@@ -8,10 +8,12 @@
 <h1>My Ebook App</h1>
 <div id="books"></div>
 
+<!-- Firebase CDN -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
+  // 🔥 Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyATX5bxvJhV1U6iSYqQWjFNQu-ex0foVC4",
     authDomain: "ai-studio-applet-webapp-33020.firebaseapp.com",
@@ -21,27 +23,34 @@
     appId: "1:975550308330:web:6298b9dee06f5d11331c93"
   };
 
+  // init
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
+  // 🔥 TEST LINE (important)
+  document.getElementById("books").innerHTML = "Loading...";
+
+  // 🔥 Firestore fetch
   db.collection("ebooks").get()
     .then((querySnapshot) => {
       let booksDiv = document.getElementById("books");
+      booksDiv.innerHTML = "";
 
       querySnapshot.forEach((doc) => {
         let data = doc.data();
 
         booksDiv.innerHTML += `
-          <div>
+          <div style="border:1px solid black; margin:10px; padding:10px;">
             <h2>${data.title}</h2>
-            <p>${data.Author}</p>
-            <p>${data.Price}</p>
+            <p>Author: ${data.Author}</p>
+            <p>Price: ${data.Price}</p>
           </div>
         `;
       });
     })
     .catch((error) => {
-      console.log("ERROR:", error);
+      document.getElementById("books").innerHTML = "ERROR: " + error;
+      console.log(error);
     });
 </script>
 
