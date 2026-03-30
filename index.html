@@ -6,44 +6,43 @@
 
 <body>
 
-<h1>📚 My Ebook App</h1>
+<h1>My Ebook App</h1>
 <div id="books"></div>
 
 <!-- Firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
-  // ✅ YOUR EXACT FIREBASE CONFIG
-  const firebaseConfig = {
-    apiKey: "AIzaSyCcUlfZRf2U4wuKN2sUEyOUwH0JqYRa7nI",
-    authDomain: "ai-studio-applet-webapp-33020.firebaseapp.com",
-    projectId: "ai-studio-applet-webapp-33020",
-    storageBucket: "ai-studio-applet-webapp-33020.firebasestorage.app",
-    messagingSenderId: "975550308330",
-    appId: "1:975550308330:web:6298b9dee06f5d11331c93"
-  };
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+const firebaseConfig = {
+  apiKey: "AIzaSyCcUlfZRf2U4wuKN2sUEyOUwH0JqYRa7nI",
+  authDomain: "ai-studio-applet-webapp-33020.firebaseapp.com",
+  projectId: "ai-studio-applet-webapp-33020",
+  storageBucket: "ai-studio-applet-webapp-33020.appspot.com",
+  messagingSenderId: "975550308330",
+  appId: "1:975550308330:web:3115187893e87527331c93"
+};
 
-  const booksDiv = document.getElementById("books");
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-  // Fetch data from Firestore
-  db.collection("ebooks").get().then((snapshot) => {
-    snapshot.forEach((doc) => {
-      const data = doc.data();
+db.collection("ebooks").get().then((querySnapshot) => {
+  let booksDiv = document.getElementById("books");
 
-      booksDiv.innerHTML += `
-        <div style="border:1px solid black; padding:10px; margin:10px;">
-          <h2>${data.title}</h2>
-          <p>Author: ${data.Author}</p>
-          <p>Price: ₹${data.Price}</p>
-        </div>
-      `;
-    });
+  querySnapshot.forEach((doc) => {
+    let data = doc.data();
+
+    booksDiv.innerHTML += `
+      <div style="border:1px solid black; padding:10px; margin:10px;">
+        <h2>${data.title}</h2>
+        <p>Author: ${data.Author}</p>
+        <p>Price: ${data.Price}</p>
+      </div>
+    `;
   });
+});
+
 </script>
 
 </body>
