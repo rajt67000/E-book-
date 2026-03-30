@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ebook App</title>
+</head>
+<body>
+
+<h1>My Ebook App</h1>
+<div id="books"></div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -14,21 +24,26 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  db.collection("ebooks").get().then((querySnapshot) => {
-    let booksDiv = document.getElementById("books");
+  db.collection("ebooks").get()
+    .then((querySnapshot) => {
+      let booksDiv = document.getElementById("books");
 
-    querySnapshot.forEach((doc) => {
-      let data = doc.data();
+      querySnapshot.forEach((doc) => {
+        let data = doc.data();
 
-      booksDiv.innerHTML += `
-        <div style="border:1px solid black; padding:10px; margin:10px;">
-          <h2>${data.title}</h2>
-          <p>Author: ${data.Author}</p>
-          <p>Price: ${data.Price}</p>
-        </div>
-      `;
+        booksDiv.innerHTML += `
+          <div>
+            <h2>${data.title}</h2>
+            <p>${data.Author}</p>
+            <p>${data.Price}</p>
+          </div>
+        `;
+      });
+    })
+    .catch((error) => {
+      console.log("ERROR:", error);
     });
-  }).catch((error) => {
-    console.log("Error:", error);
-  });
 </script>
+
+</body>
+</html>
